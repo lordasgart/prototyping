@@ -1,3 +1,5 @@
+function note()
+{
 param (
     [int]$taskNumber
 )
@@ -20,9 +22,8 @@ if ($uuid) {
     if (-Not (Test-Path $markdownFile)) {
         New-Item -ItemType File -Path $markdownFile
     }
-
-    # Open the markdown file
-    Start-Process $markdownFile
+    
+    $markdownFile
 } else {
     Write-Error "UUID not found for task number $taskNumber"
 }
@@ -34,5 +35,8 @@ if ($uuid) {
 #         return 1
 #     fi
 
-#     pwsh -File /path/to/get-task-uuid.ps1 -taskNumber $task_number
+#     pwsh -File /home/lordasgart/Projects/prototyping/get-task-uuid.ps1 -taskNumber $task_number
 # }
+}
+
+# note 1
