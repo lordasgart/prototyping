@@ -11,6 +11,8 @@ pushall() {
 	autopush
 	cd ~/Projects/lordasgart
 	autopush
+	cd ~/Projects/ooenscad
+	autopush
 	cd "$ORIGINAL_DIR" || return  # Restore original directory
 }
 # PS1='[\u@\h \W]\$ '
