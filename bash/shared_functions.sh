@@ -1,7 +1,7 @@
 autopush() {
-	git pull --rebase
 	git stage .
 	git commit -m auto
+	git pull --rebase
 	git push
 }
 pushall() {
