@@ -1,5 +1,5 @@
 
-PS1='[\u@\h \W]\$ '
+# PS1='[\u@\h \W]\$ '
 
 note1() {
     local task_number=$1
