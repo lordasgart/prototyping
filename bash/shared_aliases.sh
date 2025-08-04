@@ -1,0 +1,5 @@
+alias c="choose"
+alias d="depends"
+alias t="task"
+alias tui="taskwarrior-tui"
+alias cls="clear"
