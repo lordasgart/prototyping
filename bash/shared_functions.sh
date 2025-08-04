@@ -11,7 +11,7 @@ pushall() {
 	autopush
 	cd ~/Projects/lordasgart
 	autopush
-	cd ~/Projects/ooenscad
+	cd ~/Projects/openscad
 	autopush
 	cd "$ORIGINAL_DIR" || return  # Restore original directory
 }
