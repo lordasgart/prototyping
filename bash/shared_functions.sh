@@ -1,4 +1,18 @@
-
+autopush() {
+	git pull --rebase
+	git stage .
+	git commit -m auto
+	git push
+}
+pushall() {
+	local ORIGINAL_DIR
+        ORIGINAL_DIR="$(pwd)"  # Save the current directory
+	cd ~/Projects/prototyping
+	autopush
+	cd ~/Projects/lordasgart
+	autopush
+	cd "$ORIGINAL_DIR" || return  # Restore original directory
+}
 # PS1='[\u@\h \W]\$ '
 
 note1() {
