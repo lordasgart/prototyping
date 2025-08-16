@@ -1,4 +1,4 @@
-alias c="choose"
+alias c="c3"
 alias d="depends"
 alias t="task"
 alias tui="taskwarrior-tui"
