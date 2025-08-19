@@ -8,7 +8,8 @@ note() {
     # Get task info and extract UUID using grep and sed
     local task_info=$(task "$task_number" info)
     local uuid=$(echo "$task_info" | grep -oP 'UUID\s+\K[a-f0-9-]+')
-    local description=$(echo "$task_info" | grep -oP 'Description\s+\K.+$')
+    # Improved description extraction - look for "Description" followed by any whitespace and capture the rest of the line
+    local description=$(echo "$task_info" | grep -oP 'Description\s+\K.*' | head -n 1)
 
     if [ -n "$uuid" ]; then
         local home_dir="$HOME"
