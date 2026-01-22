@@ -1,0 +1,39 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ActionDispatcher", "ActionDispatcher", "{1DFFBCB2-2E3E-8293-D35F-25B4D81B76B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BB7A7082-63E1-B3E2-62C5-BB2D298178E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noventis.ActionDispatcher.Web", "ActionDispatcher\src\Noventis.ActionDispatcher.Web\Noventis.ActionDispatcher.Web.csproj", "{348F3FF9-9061-FDF1-FC9F-23B94AD19C2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noventis.ActionDispatcher", "ActionDispatcher\src\Noventis.ActionDispatcher\Noventis.ActionDispatcher.csproj", "{B8152290-1B38-3413-9047-453288AE436C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{348F3FF9-9061-FDF1-FC9F-23B94AD19C2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{348F3FF9-9061-FDF1-FC9F-23B94AD19C2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{348F3FF9-9061-FDF1-FC9F-23B94AD19C2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{348F3FF9-9061-FDF1-FC9F-23B94AD19C2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8152290-1B38-3413-9047-453288AE436C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8152290-1B38-3413-9047-453288AE436C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8152290-1B38-3413-9047-453288AE436C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8152290-1B38-3413-9047-453288AE436C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BB7A7082-63E1-B3E2-62C5-BB2D298178E4} = {1DFFBCB2-2E3E-8293-D35F-25B4D81B76B3}
+		{348F3FF9-9061-FDF1-FC9F-23B94AD19C2A} = {BB7A7082-63E1-B3E2-62C5-BB2D298178E4}
+		{B8152290-1B38-3413-9047-453288AE436C} = {BB7A7082-63E1-B3E2-62C5-BB2D298178E4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1993E04D-9892-4036-932B-3DF4E02D661D}
+	EndGlobalSection
+EndGlobal
