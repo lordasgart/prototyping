@@ -31,4 +31,18 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
+// Endpoint to serve raw AHK file content
+app.MapGet("/events", () =>
+{
+    var ahkFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ActionDispatcher.ahk");
+    
+    if (!File.Exists(ahkFilePath))
+    {
+        return Results.NotFound("AHK file not found");
+    }
+    
+    var content = File.ReadAllText(ahkFilePath);
+    return Results.Text(content, "text/plain; charset=utf-8");
+});
+
 app.Run();
