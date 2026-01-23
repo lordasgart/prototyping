@@ -9,6 +9,16 @@
 
 <button class="btn btn-primary" @onclick="DispatchAction">Dispatch</button>
 
+<!-- add space -->
+<br /><br />
+
+<!-- add multiline textbox -->
+<textarea class="form-control" rows="4" placeholder="Enter action details..."></textarea>
+
+<!-- Is there a line comment for razor pages? => Yes, use @* ... *@ -->
+
+@*Wir wollen einfach einen Text 1:1 senden, wie hier eingegeben... Dazu einfach in eine Datei schreiben*@
+
 @code {
     private int currentCount = 0;
 
