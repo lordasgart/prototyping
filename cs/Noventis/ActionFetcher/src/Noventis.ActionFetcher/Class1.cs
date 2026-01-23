@@ -3,10 +3,20 @@ using System.Runtime.InteropServices;
 
 namespace Noventis.ActionFetcher;
 
+public class ActionFetcherEvent
+{
+    public string CommandText { get; set; }
+    public Guid Guid { get; set; }
+}
+
 public class Class1
 {
+    List<ActionFetcherEvent> processedEvents = new List<ActionFetcherEvent>();
+
     public void RunLoop()
     {
+
+
         //Create periodic timer that calls Fetch every second
         var timer = new System.Threading.Timer(_ => Fetch(), null, 0, 1000);
 
@@ -16,7 +26,10 @@ public class Class1
 
     public void Fetch()
     {
-      var client = new HttpClient();
+        List<ActionFetcherEvent> actionFetcherEvents;
+        actionFetcherEvents = new List<ActionFetcherEvent>();
+
+        var client = new HttpClient();
         client.BaseAddress = new Uri("http://192.168.178.174:5026");
         var response = client.GetAsync("/events").Result;
         if (response.IsSuccessStatusCode)
@@ -36,7 +49,50 @@ public class Class1
 
         //events.Dump("Fetched events (commandText + GUID) from Action Dispatcher");
 
+        ActionFetcherEvent[] fetchedEvents = events
+            .Select(e => new ActionFetcherEvent
+            {
+                CommandText = e.commandText,
+                Guid = e.Guid
+            })
+            .ToArray();
+
         Debug.WriteLine($"Fetched {events.Count} events from Action Dispatcher");
+
+        foreach (var fetchedEvent in fetchedEvents)
+        {
+            //Check if event was already processed
+            if (!processedEvents.Any(e => e.Guid == fetchedEvent.Guid))
+            {
+                //Process event
+                Debug.WriteLine($"Processing event: {fetchedEvent.CommandText} with GUID: {fetchedEvent.Guid}");
+                //Execute AHK command
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    //Create a temporary AHK file
+                    var tempAhkFilePath = Path.Combine(Path.GetTempPath(), $"temp_{Guid.NewGuid()}.ahk");
+                    File.WriteAllText(tempAhkFilePath, fetchedEvent.CommandText);
+
+                    //Start AHK process
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "explorer.exe",
+                        Arguments = $"\"{tempAhkFilePath}\"",
+                        UseShellExecute = true
+                    });
+
+                    //Optionally delete the temporary file after some time
+                    //File.Delete(tempAhkFilePath);
+                }
+                else
+                {
+                    Debug.WriteLine("AutoHotkey execution is only supported on Windows.");
+                }
+
+                //Mark event as processed
+                processedEvents.Add(fetchedEvent);
+            }
+        }
       }
       else
       {
