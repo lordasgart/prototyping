@@ -1,4 +1,5 @@
 ﻿@page "/action"
+@using System.Diagnostics
 @rendermode InteractiveServer
 
 <PageTitle>Action</PageTitle>
@@ -13,7 +14,7 @@
 <br /><br />
 
 <!-- add multiline textbox -->
-<textarea class="form-control" rows="4" placeholder="Enter action details..."></textarea>
+<textarea @bind="inputText" class="form-control" rows="4" placeholder="Enter action details..."></textarea>
 
 <!-- Is there a line comment for razor pages? => Yes, use @* ... *@ -->
 
@@ -21,9 +22,22 @@
 
 @code {
     private int currentCount = 0;
+    private string inputText = string.Empty;
 
     private void DispatchAction()
     {
         currentCount++;
+        Debug.WriteLine($"Action dispatched {currentCount} times.");
+        ProcessText();
+    }
+
+    private void ProcessText()
+    {
+        Debug.WriteLine($"Processed Text: {inputText}");
+        //Write the inputText to a file
+        var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ActionOutput.txt");
+        File.WriteAllText(filePath, inputText);
+
+        //We now create a new URL /output to display the content of the file
     }
 }
