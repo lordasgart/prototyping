@@ -1,0 +1,28 @@
+@page "/output"
+@rendermode InteractiveServer
+
+<PageTitle>Output</PageTitle>
+
+<h1>Output</h1>
+
+@if (fileContent != null)
+{
+    <pre>@fileContent</pre>
+}
+else
+{
+    <p>No content available.</p>
+}
+
+@code {
+    private string? fileContent;
+
+    protected override void OnInitialized()
+    {
+        var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ActionOutput.txt");
+        if (File.Exists(filePath))
+        {
+            fileContent = File.ReadAllText(filePath);
+        }
+    }
+}
