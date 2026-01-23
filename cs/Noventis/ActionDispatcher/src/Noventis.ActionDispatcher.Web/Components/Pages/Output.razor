@@ -1,13 +1,21 @@
 @page "/output"
 @rendermode InteractiveServer
+@inject IJSRuntime JS
 
 <PageTitle>Output</PageTitle>
 
 <h1>Output</h1>
 
+<p role="status">Click "Copy" to copy the text to the clipboard.</p>
+
+<button class="btn btn-primary" @onclick="CopyToClipboard">Copy</button>
+
+<!-- add space -->
+<br /><br />
+
 @if (fileContent != null)
 {
-    <pre>@fileContent</pre>
+    <textarea @bind="fileContent" class="form-control" rows="4" placeholder="Enter action details..."></textarea>
 }
 else
 {
@@ -23,6 +31,18 @@ else
         if (File.Exists(filePath))
         {
             fileContent = File.ReadAllText(filePath);
+        }
+    }
+
+    private async Task CopyToClipboard()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", fileContent);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error copying to clipboard: {ex.Message}");
         }
     }
 }
