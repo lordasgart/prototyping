@@ -13,6 +13,8 @@ public class Class1
 {
     List<ActionFetcherEvent> processedEvents = new List<ActionFetcherEvent>();
 
+    public static bool firstLoop = true;
+
     public void RunLoop()
     {
 
@@ -26,78 +28,101 @@ public class Class1
 
     public void Fetch()
     {
-        List<ActionFetcherEvent> actionFetcherEvents;
-        actionFetcherEvents = new List<ActionFetcherEvent>();
-
-        var client = new HttpClient();
-        client.BaseAddress = new Uri("http://192.168.178.174:5026");
-        var response = client.GetAsync("/events").Result;
-        if (response.IsSuccessStatusCode)
+        try
         {
-            var content = response.Content.ReadAsStringAsync().Result;
-            var lines = content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            var events = lines
-                .Select(line => {
-                    var parts = line.Split(';');
-                    var commandText = parts[0].Trim();
-            var guidPart = parts.Length > 1 ? parts[1].Trim() : null;
-            return new { commandText, guidPart };
-          })
-          .Where(e => Guid.TryParse(e.guidPart, out _))
-          .Select(e => new { e.commandText, Guid = Guid.Parse(e.guidPart) })
-          .ToList();
+            List<ActionFetcherEvent> actionFetcherEvents;
+            actionFetcherEvents = new List<ActionFetcherEvent>();
 
-        //events.Dump("Fetched events (commandText + GUID) from Action Dispatcher");
-
-        ActionFetcherEvent[] fetchedEvents = events
-            .Select(e => new ActionFetcherEvent
+            var client = new HttpClient();
+            client.BaseAddress = new Uri("http://192.168.178.174:5026");
+            var response = client.GetAsync("/events").Result;
+            if (response.IsSuccessStatusCode)
             {
-                CommandText = e.commandText,
-                Guid = e.Guid
-            })
-            .ToArray();
-
-        Debug.WriteLine($"Fetched {events.Count} events from Action Dispatcher");
-
-        foreach (var fetchedEvent in fetchedEvents)
-        {
-            //Check if event was already processed
-            if (!processedEvents.Any(e => e.Guid == fetchedEvent.Guid))
-            {
-                //Process event
-                Debug.WriteLine($"Processing event: {fetchedEvent.CommandText} with GUID: {fetchedEvent.Guid}");
-                //Execute AHK command
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    //Create a temporary AHK file
-                    var tempAhkFilePath = Path.Combine(Path.GetTempPath(), $"temp_{Guid.NewGuid()}.ahk");
-                    File.WriteAllText(tempAhkFilePath, fetchedEvent.CommandText);
-
-                    //Start AHK process
-                    Process.Start(new ProcessStartInfo
+                var content = response.Content.ReadAsStringAsync().Result;
+                var lines = content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                var events = lines
+                    .Select(line =>
                     {
-                        FileName = "explorer.exe",
-                        Arguments = $"\"{tempAhkFilePath}\"",
-                        UseShellExecute = true
-                    });
+                        var parts = line.Split(';');
+                        var commandText = parts[0].Trim();
+                        var guidPart = parts.Length > 1 ? parts[1].Trim() : null;
+                        return new { commandText, guidPart };
+                    })
+                    .Where(e => Guid.TryParse(e.guidPart, out _))
+                    .Select(e => new { e.commandText, Guid = Guid.Parse(e.guidPart) })
+                    .ToList();
 
-                    //Optionally delete the temporary file after some time
-                    //File.Delete(tempAhkFilePath);
+                //events.Dump("Fetched events (commandText + GUID) from Action Dispatcher");
+
+                ActionFetcherEvent[] fetchedEvents = events
+                    .Select(e => new ActionFetcherEvent
+                    {
+                        CommandText = e.commandText,
+                        Guid = e.Guid
+                    })
+                    .ToArray();
+
+                Debug.WriteLine($"Fetched {events.Count} events from Action Dispatcher");
+
+                if (fetchedEvents.Length == 0)
+                {
+                    //clear processed events if no events are fetched too
+                    processedEvents.Clear();
                 }
                 else
                 {
-                    Debug.WriteLine("AutoHotkey execution is only supported on Windows.");
+                    if (firstLoop)
+                    {
+                        //On first loop, mark all fetched events as processed to avoid executing old events
+                        processedEvents.AddRange(fetchedEvents);
+                        firstLoop = false;
+                    }
                 }
 
-                //Mark event as processed
-                processedEvents.Add(fetchedEvent);
+                foreach (var fetchedEvent in fetchedEvents)
+                {
+                    //Check if event was already processed
+                    if (!processedEvents.Any(e => e.Guid == fetchedEvent.Guid))
+                    {
+                        //Process event
+                        Debug.WriteLine($"Processing event: {fetchedEvent.CommandText} with GUID: {fetchedEvent.Guid}");
+                        //Execute AHK command
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        {
+                            //Create a temporary AHK file
+                            var tempAhkFilePath = Path.Combine(Path.GetTempPath(), $"temp_{Guid.NewGuid()}.ahk");
+                            File.WriteAllText(tempAhkFilePath, fetchedEvent.CommandText);
+
+                            //Start AHK process
+                            Process.Start(new ProcessStartInfo
+                            {
+                                FileName = "explorer.exe",
+                                Arguments = $"\"{tempAhkFilePath}\"",
+                                UseShellExecute = true
+                            });
+
+                            //Optionally delete the temporary file after some time
+                            //File.Delete(tempAhkFilePath);
+                        }
+                        else
+                        {
+                            Debug.WriteLine("AutoHotkey execution is only supported on Windows.");
+                        }
+
+                        //Mark event as processed
+                        processedEvents.Add(fetchedEvent);
+                    }
+                }
+            }
+            else
+            {
+                //$"Failed to fetch events: {response.StatusCode}".Dump();
+                Debug.WriteLine($"Failed to fetch events: {response.StatusCode}");
             }
         }
-      }
-      else
-      {
-        //$"Failed to fetch events: {response.StatusCode}".Dump();
-        Debug.WriteLine($"Failed to fetch events: {response.StatusCode}");
-      }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in Fetch: {ex.Message}");
+        }
     }
 }
