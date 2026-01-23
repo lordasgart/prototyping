@@ -10,6 +10,7 @@
 
 <button class="btn btn-primary" @onclick="DispatchAction">Dispatch</button>
 <button class="btn btn-primary" @onclick="PageDownAction">PageDown</button>
+<button class="btn btn-primary" @onclick="PageUpAction">PageUp</button>
 <button class="btn btn-primary" @onclick="PublishEventsAction">Publish Events</button>
 <button class="btn btn-primary" @onclick="CleanEventsAction">Clean Events</button>
 
@@ -55,6 +56,16 @@
         //and add a new guid behind as a comment
         var ahkCommand = $"Send, {{PgDn}} ; {Guid.NewGuid()}";
         commandQueue.Enqueue(ahkCommand);
+        PublishEventsAction();
+    }
+
+    private void PageUpAction()
+    {
+        //Create an AHK script line e.g. Send, {PgDn}
+        //and add a new guid behind as a comment
+        var ahkCommand = $"Send, {{PgUp}} ; {Guid.NewGuid()}";
+        commandQueue.Enqueue(ahkCommand);
+        PublishEventsAction();
     }
 
     private void PublishEventsAction()
