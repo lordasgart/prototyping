@@ -9,6 +9,9 @@
 <p role="status">Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="DispatchAction">Dispatch</button>
+<button class="btn btn-primary" @onclick="PageDownAction">PageDown</button>
+<button class="btn btn-primary" @onclick="PublishEventsAction">Publish Events</button>
+<button class="btn btn-primary" @onclick="CleanEventsAction">Clean Events</button>
 
 <!-- add space -->
 <br /><br />
@@ -23,6 +26,11 @@
 @code {
     private int currentCount = 0;
     private string inputText = string.Empty;
+
+    private readonly string ahkFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ActionDispatcher.ahk");
+
+    //Create a queue to store the commands to be sent to AHK
+    private Queue<string> commandQueue = new Queue<string>();
 
     private void DispatchAction()
     {
@@ -39,5 +47,33 @@
         File.WriteAllText(filePath, inputText);
 
         //We now create a new URL /output to display the content of the file
+    }
+
+    private void PageDownAction()
+    {
+        //Create an AHK script line e.g. Send, {PgDn}
+        //and add a new guid behind as a comment
+        var ahkCommand = $"Send, {{PgDn}} ; {Guid.NewGuid()}";
+        commandQueue.Enqueue(ahkCommand);
+    }
+
+    private void PublishEventsAction()
+    {
+        // Write all commands from the queue to the AHK file
+        using (var writer = new StreamWriter(ahkFilePath, append: true))
+        {
+            while (commandQueue.Count > 0)
+            {
+                var command = commandQueue.Dequeue();
+                writer.WriteLine(command);
+            }
+        }
+    }
+
+    private void CleanEventsAction()
+    {
+        // Clear the AHK file and the command queue
+        File.WriteAllText(ahkFilePath, string.Empty);
+        commandQueue.Clear();
     }
 }
