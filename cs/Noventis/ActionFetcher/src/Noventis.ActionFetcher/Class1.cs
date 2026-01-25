@@ -17,13 +17,19 @@ public class Class1
 
     public void RunLoop()
     {
-
+        //Not needed, as we do not process existing events, but only new
+        //Thread.Sleep(10000); //Initial delay to allow other services to start
 
         //Create periodic timer that calls Fetch every second
-        var timer = new System.Threading.Timer(_ => Fetch(), null, 0, 1000);
+        //var timer = new System.Threading.Timer(_ => Fetch(), null, 0, 5000);
+        while (true)
+        {
+            Fetch();
+            System.Threading.Thread.Sleep(5000); // wait 5000 ms synchronously
+        }
 
         //Prevent the application from exiting
-        Console.ReadLine();
+        //Console.ReadLine();
     }
 
     public void Fetch()
@@ -34,7 +40,8 @@ public class Class1
             actionFetcherEvents = new List<ActionFetcherEvent>();
 
             var client = new HttpClient();
-            client.BaseAddress = new Uri("http://192.168.178.174:5026");
+            //client.BaseAddress = new Uri("http://192.168.178.174:5026");
+            client.BaseAddress = new Uri("http://192.168.178.85:5026");
             var response = client.GetAsync("/events").Result;
             if (response.IsSuccessStatusCode)
             {
