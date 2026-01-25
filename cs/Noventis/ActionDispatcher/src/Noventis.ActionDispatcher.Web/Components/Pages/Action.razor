@@ -11,6 +11,8 @@
 <button class="btn btn-primary" @onclick="DispatchAction">Dispatch</button>
 <button class="btn btn-primary" @onclick="PageDownAction">PageDown</button>
 <button class="btn btn-primary" @onclick="PageUpAction">PageUp</button>
+<textarea @bind="genericActionText" cols="16" rows="1" placeholder="Send, {}" style="font-size: 2rem; font-family: 'Consolas', 'Monaco', 'SF Mono', monospace;"></textarea>
+<button class="btn btn-primary" @onclick="GenericAction">Send Generic Event</button>
 <button class="btn btn-primary" @onclick="PublishEventsAction">Publish Events</button>
 <button class="btn btn-primary" @onclick="CleanEventsAction">Clean Events</button>
 
@@ -27,6 +29,7 @@
 @code {
     private int currentCount = 0;
     private string inputText = string.Empty;
+    private string genericActionText = string.Empty;
 
     private readonly string ahkFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ActionDispatcher.ahk");
 
@@ -64,6 +67,15 @@
         //Create an AHK script line e.g. Send, {PgDn}
         //and add a new guid behind as a comment
         var ahkCommand = $"Send, {{PgUp}} ; {Guid.NewGuid()}";
+        commandQueue.Enqueue(ahkCommand);
+        PublishEventsAction();
+    }
+
+    private void GenericAction()
+    {
+        //Create an AHK script line e.g. Send, {PgDn}
+        //and add a new guid behind as a comment
+        var ahkCommand = $"{genericActionText} ; {Guid.NewGuid()}";
         commandQueue.Enqueue(ahkCommand);
         PublishEventsAction();
     }
