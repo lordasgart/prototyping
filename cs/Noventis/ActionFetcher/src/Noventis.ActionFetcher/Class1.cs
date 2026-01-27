@@ -40,8 +40,8 @@ public class Class1
             actionFetcherEvents = new List<ActionFetcherEvent>();
 
             var client = new HttpClient();
-            //client.BaseAddress = new Uri("http://192.168.178.174:5026");
-            client.BaseAddress = new Uri("http://192.168.178.85:5026");
+            client.BaseAddress = new Uri("http://192.168.178.174:5026");
+            //client.BaseAddress = new Uri("http://192.168.178.85:5026");
             var response = client.GetAsync("/events").Result;
             if (response.IsSuccessStatusCode)
             {
