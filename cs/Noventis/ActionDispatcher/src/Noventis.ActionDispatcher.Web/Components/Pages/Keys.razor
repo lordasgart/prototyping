@@ -1,0 +1,64 @@
+@page "/keys"
+@using System.Diagnostics
+@rendermode InteractiveServer
+
+<PageTitle>Keys</PageTitle>
+
+<h1>Keys</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="SendAction">Send Text</button>
+
+<br /><br />
+
+<textarea @bind="sendText" cols="16" rows="1" placeholder="" style="font-size: 2rem; font-family: 'Consolas', 'Monaco', 'SF Mono', monospace;"></textarea>
+
+<br /><br />
+
+<a href="https://www.autohotkey.com/docs/v1/lib/Send.htm" target="_blank">Documentation</a>
+
+@code {
+
+private int currentCount = 0;
+
+private Queue<string> commandQueue = new Queue<string>();
+
+//https://www.autohotkey.com/docs/v1/lib/Send.htm
+private readonly string ahkFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ActionDispatcher.ahk");
+
+private string sendText = string.Empty;
+
+private void SendAction()
+{
+    Send(sendText);
+}
+
+private void Send(string textToSend)
+{
+    GenericAction($"Send, {textToSend}");
+}
+
+private void GenericAction(string genericActionText)
+{
+    currentCount++;
+    var ahkCommand = $"{genericActionText} ; {Guid.NewGuid()}";
+    commandQueue.Enqueue(ahkCommand);
+    PublishEventsAction();
+    sendText = string.Empty;
+}
+
+private void PublishEventsAction()
+{
+    // Write all commands from the queue to the AHK file
+    using (var writer = new StreamWriter(ahkFilePath, append: true))
+    {
+        while (commandQueue.Count > 0)
+        {
+            var command = commandQueue.Dequeue();
+            writer.WriteLine(command);
+        }
+    }
+}
+
+}
