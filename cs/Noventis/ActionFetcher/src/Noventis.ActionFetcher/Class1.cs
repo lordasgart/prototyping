@@ -24,6 +24,7 @@ public class Class1
         //var timer = new System.Threading.Timer(_ => Fetch(), null, 0, 5000);
         while (true)
         {
+            Console.Write(".");
             Fetch();
             System.Threading.Thread.Sleep(5000); // wait 5000 ms synchronously
         }
