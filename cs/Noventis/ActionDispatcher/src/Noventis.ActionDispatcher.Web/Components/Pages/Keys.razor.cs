@@ -1,9 +1,7 @@
 namespace Noventis.ActionDispatcher.Web.Components.Pages
 {
-    public partial class Keys
+    public partial class Keys(ICoreComponent core)
     {
-        private int currentCount = 0;
-
         private readonly Queue<string> commandQueue = new();
 
         //https://www.autohotkey.com/docs/v1/lib/Send.htm
@@ -23,7 +21,7 @@ namespace Noventis.ActionDispatcher.Web.Components.Pages
 
         private void GenericAction(string genericActionText)
         {
-            currentCount++;
+            core.CurrentCount++;
             var ahkCommand = $"{genericActionText} ; {Guid.NewGuid()}";
             commandQueue.Enqueue(ahkCommand);
             PublishEventsAction();

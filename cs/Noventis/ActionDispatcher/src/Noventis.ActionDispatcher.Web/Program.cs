@@ -13,6 +13,8 @@ builder.WebHost.ConfigureKestrel(options =>
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddSingleton<ICoreComponent, CoreComponent>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
