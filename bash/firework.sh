@@ -23,7 +23,7 @@ firework() {
 }
 
 # Beispiel: Nach einem erfolgreichen Befehl
-if command; then
-  firework
-fi
+#if command; then
+#  firework
+#fi
 

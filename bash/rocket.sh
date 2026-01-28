@@ -25,7 +25,6 @@ rocket() {
 }
 
 # Beispiel:
-if command; then
-  rocket
-fi
-
+#if command; then
+#  rocket
+#fi

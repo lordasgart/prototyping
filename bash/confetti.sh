@@ -26,7 +26,6 @@ confetti() {
 }
 
 # Beispiel:
-if command; then
-  confetti
-fi
-
+#if command; then
+#  confetti
+#fi
