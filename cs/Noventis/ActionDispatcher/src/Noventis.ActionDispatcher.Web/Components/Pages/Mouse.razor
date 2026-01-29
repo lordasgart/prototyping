@@ -6,3 +6,10 @@
 
 <h1>Mouse</h1>
 
+<p role="status">Current count: @core.CurrentCount</p>
+
+<InputNumber min="1" step="1" placeholder="x" @bind-Value="@x" />
+<InputNumber min="1" step="1" placeholder="y" @bind-Value="@y" />
+
+<button class="btn btn-primary" @onclick="MouseMoveAction">Move</button>
+<button class="btn btn-primary" @onclick="MouseClickAction">Click</button>

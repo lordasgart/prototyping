@@ -9,5 +9,16 @@ public partial class Mouse
         this.core = core;
     }
 
+    private int x;
+    private int y;
 
+    private void MouseMoveAction()
+    {
+        core.MouseMove(x,y);
+    }
+
+    private void MouseClickAction()
+    {
+        core.MouseClick();
+    }
 }
