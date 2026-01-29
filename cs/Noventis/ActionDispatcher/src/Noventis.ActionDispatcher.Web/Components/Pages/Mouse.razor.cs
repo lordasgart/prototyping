@@ -1,14 +1,7 @@
 namespace Noventis.ActionDispatcher.Web.Components.Pages;
 
-public partial class Mouse
+public partial class Mouse(ICoreComponent core)
 {
-    private readonly ICoreComponent core;
-
-    public Mouse(ICoreComponent core)
-    {
-        this.core = core;
-    }
-
     private int x;
     private int y;
 
