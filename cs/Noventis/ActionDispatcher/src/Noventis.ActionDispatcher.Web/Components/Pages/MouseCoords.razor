@@ -1,0 +1,72 @@
+﻿@page "/mousecoords"
+
+@rendermode InteractiveServer
+
+<h3>Coordinate Tracker</h3>
+
+<div class="coordinate-display">
+    <p>Hover Position: (@hoverX, @hoverY)</p>
+    @if (clickX >= 0 && clickY >= 0)
+    {
+        <p>Last Click: (@clickX, @clickY)</p>
+    }
+</div>
+
+<div class="coordinate-box"
+     @onmousemove="HandleMouseMove"
+     @onclick="HandleClick"
+     @onmouseleave="HandleMouseLeave">
+</div>
+
+@code {
+    private int hoverX = 0;
+    private int hoverY = 0;
+    private int clickX = -1;
+    private int clickY = -1;
+
+    private void HandleMouseMove(MouseEventArgs e)
+    {
+        // Get the relative coordinates within the element
+        hoverX = (int)e.OffsetX;
+        hoverY = (int)e.OffsetY;
+    }
+
+    private void HandleClick(MouseEventArgs e)
+    {
+        // Capture the click coordinates
+        clickX = (int)e.OffsetX;
+        clickY = (int)e.OffsetY;
+    }
+
+    private void HandleMouseLeave(MouseEventArgs e)
+    {
+        // Optional: Reset hover coordinates when mouse leaves
+        hoverX = 0;
+        hoverY = 0;
+    }
+}
+
+<style>
+    .coordinate-box {
+        width: 128px;
+        height: 80px;
+        border: 2px solid #333;
+        background-color: #f0f0f0;
+        cursor: crosshair;
+        position: relative;
+    }
+
+        .coordinate-box:hover {
+            background-color: #e0e0e0;
+        }
+
+    .coordinate-display {
+        margin-bottom: 10px;
+        font-family: monospace;
+        font-size: 14px;
+    }
+
+        .coordinate-display p {
+            margin: 5px 0;
+        }
+</style>
