@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.5.2.0
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11415.280 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ActionDispatcher", "ActionDispatcher", "{1DFFBCB2-2E3E-8293-D35F-25B4D81B76B3}"
 EndProject
@@ -13,6 +13,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ActionFetcher", "ActionFetcher", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B41BC2FA-E7F8-47B7-B24D-3C8E6999B805}"
+	ProjectSection(SolutionItems) = preProject
+		ActionDispatcher\src\Noventis.ActionDispatcher\Crypto.cs = ActionDispatcher\src\Noventis.ActionDispatcher\Crypto.cs
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Noventis.ActionFetcher", "ActionFetcher\src\Noventis.ActionFetcher\Noventis.ActionFetcher.csproj", "{15351912-19EE-F853-0710-FD3C326EE0BF}"
 EndProject

@@ -152,7 +152,7 @@ public class Class1
             client.BaseAddress = new Uri(server);
             try
             {
-                var responseTest = client.GetAsync("/events").Result;
+                var responseTest = client.GetAsync("/fritz.box").Result;
                 if (responseTest.IsSuccessStatusCode)
                 {
                     Console.WriteLine(server);
