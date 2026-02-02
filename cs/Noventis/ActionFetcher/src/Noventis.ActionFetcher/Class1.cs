@@ -49,24 +49,10 @@ public class Class1
                 "http://192.168.178.193:5026"
             };
 
-            //use the first server answering
-            foreach (var server in listOfServers)
-            {
-                client.BaseAddress = new Uri(server);
-                try
-                {
-                    var responseTest = client.GetAsync("/events").Result;
-                    if (responseTest.IsSuccessStatusCode)
-                    {
+            do {
+                GetServer(listOfServers, client);
+            } while (client.BaseAddress == null);
                         Console.WriteLine(server);
-                        break; //exit the loop if successful
-                    }
-                }
-                catch
-                {
-                    //ignore and try next server
-                }
-            }
 
             var response = client.GetAsync("/events").Result;
             if (response.IsSuccessStatusCode)
@@ -156,6 +142,26 @@ public class Class1
         catch (Exception ex)
         {
             Debug.WriteLine($"Error in Fetch: {ex.Message}");
+        }
+    }
+
+    private static void GetServer(List<string> listOfServers, HttpClient client)
+    {
+        foreach (var server in listOfServers)
+        {
+            client.BaseAddress = new Uri(server);
+            try
+            {
+                var responseTest = client.GetAsync("/events").Result;
+                if (responseTest.IsSuccessStatusCode)
+                {
+                    break; //exit the loop if successful
+                }
+            }
+            catch
+            {
+                //ignore and try next server
+            }
         }
     }
 }
