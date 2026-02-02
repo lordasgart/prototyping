@@ -1,4 +1,7 @@
-namespace ASP.home.lordasgart.Projects.prototyping.cs.Noventis.ActionDispatcher.src.Noventis_ActionDispatcher_Web.Components.Pages
+using Microsoft.AspNetCore.Components.Web;
+using Noventis.ActionDispatcher.Web.Components;
+
+namespace Noventis.ActionDispatcher.Web.Components.Pages
 {
     public partial class MouseCoords(ICoreComponent core)
     {
