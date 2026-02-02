@@ -19,6 +19,12 @@
             GenericAction($"MouseMove, {x}, {y}");
         }
 
+        //MouseMoveRelative
+        public void MouseMoveRelative(int deltaX, int deltaY)
+        {
+            GenericAction($"MouseMove, {deltaX}, {deltaY}, 0, R");
+        }
+
         private void GenericAction(string genericActionText)
         {
             CurrentCount++;
@@ -44,6 +50,12 @@
         public void MouseClick()
         {
             GenericAction($"MouseClick");
+        }
+
+        //right click
+        public void MouseRightClick()
+        {
+            GenericAction($"MouseClick, right");
         }
     }
 }

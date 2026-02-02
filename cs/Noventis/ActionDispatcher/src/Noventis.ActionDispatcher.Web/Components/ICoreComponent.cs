@@ -6,6 +6,8 @@
 
         void MouseClick();
         void MouseMove(int x, int y);
+        void MouseMoveRelative(int deltaX, int deltaY);
+        void MouseRightClick();
         void Send(string sendText);
     }
 }

@@ -1,6 +1,6 @@
 namespace ASP.home.lordasgart.Projects.prototyping.cs.Noventis.ActionDispatcher.src.Noventis_ActionDispatcher_Web.Components.Pages
 {
-    public partial class MouseCoords
+    public partial class MouseCoords(ICoreComponent core)
     {
         private int hoverX = 0;
         private int hoverY = 0;
@@ -37,6 +37,12 @@ namespace ASP.home.lordasgart.Projects.prototyping.cs.Noventis.ActionDispatcher.
             // Capture the mouse release coordinates
             releaseX = (int)e.OffsetX;
             releaseY = (int)e.OffsetY;
+
+            //Difference between Mouse Down and Release
+            int diffX = releaseX - mouseDownX;
+            int diffY = releaseY - mouseDownY;
+
+            core.MouseMoveRelative(diffX, diffY);
         }
 
         private void HandleMouseLeave(MouseEventArgs e)
@@ -44,6 +50,17 @@ namespace ASP.home.lordasgart.Projects.prototyping.cs.Noventis.ActionDispatcher.
             // Optional: Reset hover coordinates when mouse leaves
             hoverX = 0;
             hoverY = 0;
+        }
+
+        private void MouseClickAction()
+        {
+            core.MouseClick();
+        }
+
+        //Right Click Action
+        private void MouseRightClickAction()
+        {
+            core.MouseRightClick();
         }
     }
 }
