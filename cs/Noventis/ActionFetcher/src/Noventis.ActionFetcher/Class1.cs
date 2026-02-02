@@ -58,6 +58,7 @@ public class Class1
                     var responseTest = client.GetAsync("/events").Result;
                     if (responseTest.IsSuccessStatusCode)
                     {
+                        Console.WriteLine(server);
                         break; //exit the loop if successful
                     }
                 }
