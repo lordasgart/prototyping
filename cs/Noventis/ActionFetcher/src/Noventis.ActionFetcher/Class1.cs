@@ -41,8 +41,32 @@ public class Class1
             actionFetcherEvents = new List<ActionFetcherEvent>();
 
             var client = new HttpClient();
-            //client.BaseAddress = new Uri("http://192.168.178.174:5026");
-            client.BaseAddress = new Uri("http://192.168.178.85:5026");
+            //Servers are .85, .174 and .193
+            var listOfServers = new List<string>
+            {
+                "http://192.168.178.85:5026",
+                "http://192.168.178.174:5026",
+                "http://192.168.178.193:5026"
+            };
+
+            //use the first server answering
+            foreach (var server in listOfServers)
+            {
+                client.BaseAddress = new Uri(server);
+                try
+                {
+                    var responseTest = client.GetAsync("/events").Result;
+                    if (responseTest.IsSuccessStatusCode)
+                    {
+                        break; //exit the loop if successful
+                    }
+                }
+                catch
+                {
+                    //ignore and try next server
+                }
+            }
+
             var response = client.GetAsync("/events").Result;
             if (response.IsSuccessStatusCode)
             {
