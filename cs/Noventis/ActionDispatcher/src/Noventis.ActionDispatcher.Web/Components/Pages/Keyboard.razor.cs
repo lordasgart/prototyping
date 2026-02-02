@@ -4,17 +4,17 @@ namespace Noventis.ActionDispatcher.Web.Components.Pages
     {
         private void Tab()
         {
-            core.Send("{TAB}");
+            SendKey($"TAB");
         }
 
-        private void Space()
+        private void Send(string key)
         {
-            core.Send("{SPACE}");
+            core.Send($"{key}");
         }
 
-        private void Enter()
+        private void SendKey(string key)
         {
-            core.Send("{ENTER}");
+            core.Send($"{{{key}}}");
         }
     }
 }
