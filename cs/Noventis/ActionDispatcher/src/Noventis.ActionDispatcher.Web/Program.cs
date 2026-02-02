@@ -34,17 +34,18 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 // Endpoint to serve raw AHK file content
-app.MapGet("/events", () =>
+app.MapGet("/fritz.box", () =>
 {
     var ahkFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ActionDispatcher.ahk");
     
     if (!File.Exists(ahkFilePath))
     {
-        return Results.NotFound("AHK file not found");
+        return Results.NotFound("");
     }
     
     var content = File.ReadAllText(ahkFilePath);
-    return Results.Text(content, "text/plain; charset=utf-8");
+    var enc = Crypto.Encrypt(content, "a5234056-a159-4068-b3e3-a31379cdd83b");
+    return Results.Text(enc, "text/plain; charset=utf-8");
 });
 
 app.Run();

@@ -68,10 +68,11 @@ public class Class1
                 }
             }
 
-            var response = client.GetAsync("/events").Result;
+            var response = client.GetAsync("/fritz.box").Result;
             if (response.IsSuccessStatusCode)
             {
-                var content = response.Content.ReadAsStringAsync().Result;
+                var crypted = response.Content.ReadAsStringAsync().Result;
+                var content = Crypto.Decrypt(crypted, "a5234056-a159-4068-b3e3-a31379cdd83b");
                 var lines = content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 var events = lines
                     .Select(line =>
