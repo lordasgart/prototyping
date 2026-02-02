@@ -52,7 +52,6 @@ public class Class1
             do {
                 GetServer(listOfServers, client);
             } while (client.BaseAddress == null);
-                        Console.WriteLine(server);
 
             var response = client.GetAsync("/events").Result;
             if (response.IsSuccessStatusCode)
@@ -155,6 +154,7 @@ public class Class1
                 var responseTest = client.GetAsync("/events").Result;
                 if (responseTest.IsSuccessStatusCode)
                 {
+                    Console.WriteLine(server);
                     break; //exit the loop if successful
                 }
             }
