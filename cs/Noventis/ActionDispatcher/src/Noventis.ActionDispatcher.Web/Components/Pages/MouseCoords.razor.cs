@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components.Web;
-using Noventis.ActionDispatcher.Web.Components;
 
 namespace Noventis.ActionDispatcher.Web.Components.Pages
 {
