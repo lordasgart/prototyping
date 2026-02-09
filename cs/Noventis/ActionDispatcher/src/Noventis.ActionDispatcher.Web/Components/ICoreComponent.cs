@@ -9,5 +9,6 @@
         void MouseMoveRelative(int deltaX, int deltaY);
         void MouseRightClick();
         void Send(string sendText);
+        void SendKey(string v);
     }
 }

@@ -1,0 +1,13 @@
+@page "/text"
+@using System.Diagnostics
+@rendermode InteractiveServer
+
+<PageTitle>Text</PageTitle>
+
+<h1>Text</h1>
+
+<p role="status">Current count: @core.CurrentCount</p>
+
+<textarea @bind="text" class="form-control" rows="16" placeholder="" style="font-size: 2rem; font-family: 'Consolas', 'Monaco', 'SF Mono', monospace;"></textarea>
+
+<button class="btn btn-primary" @onclick="SendText">Send Text</button>

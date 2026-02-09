@@ -14,6 +14,11 @@
             GenericAction($"Send, {textToSend}");
         }
 
+        public void SendKey(string key)
+        {
+            Send($"{{{key}}}");
+        }
+
         public void MouseMove(int x, int y)
         {
             GenericAction($"MouseMove, {x}, {y}");
