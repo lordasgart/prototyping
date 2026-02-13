@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <ApplicationIcon>icons8-github-copilot-1500.ico</ApplicationIcon>
+    <AssemblyName>GitHub Copilot</AssemblyName>
   </PropertyGroup>
 
 </Project>

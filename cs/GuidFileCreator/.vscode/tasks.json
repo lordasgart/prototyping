@@ -9,6 +9,12 @@
 				"$msCompile"
 			],
 			"group": "build"
+		},
+		{
+			"label": "Build .NET Console App with new name",
+			"type": "shell",
+			"command": "dotnet build",
+			"group": "build"
 		}
 	]
 }
