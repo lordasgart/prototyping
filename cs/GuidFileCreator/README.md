@@ -9,6 +9,11 @@ This is a .NET 10.0 console application.
    - `dotnet build`
    - `dotnet run`
 
+## Tips
+
+"window.newWindowDimensions": "maximized"
+inside .vscode/settings.json can be used to maximize Visual Studio Code.
+
 ## Project Structure
 - Program.cs: Main entry point
 - GuidFileCreator.csproj: Project file
